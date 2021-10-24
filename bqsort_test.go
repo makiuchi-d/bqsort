@@ -3,6 +3,7 @@ package bqsort_test
 import (
 	"math"
 	"math/rand"
+	"reflect"
 	"sort"
 	"testing"
 	"time"
@@ -48,5 +49,59 @@ func TestSlice(t *testing.T) {
 
 	if !sort.SliceIsSorted(data, func(i, j int) bool { return data[i] > data[j] }) {
 		t.Fatalf("slice is not sorted: %x", data)
+	}
+}
+
+func TestInt8s(t *testing.T) {
+	data := []int8{127, -15, 10, -1, 0}
+	exp := []int8{-15, -1, 0, 10, 127}
+	bqsort.Int8s(data)
+	if !reflect.DeepEqual(data, exp) {
+		t.Fatalf("data is not sorted: %x, wants %x", data, exp)
+	}
+}
+
+func TestUint8s(t *testing.T) {
+	data := []uint8{127, 15, 10, 1, 0}
+	exp := []uint8{0, 1, 10, 15, 127}
+	bqsort.Uint8s(data)
+	if !reflect.DeepEqual(data, exp) {
+		t.Fatalf("data is not sorted: %x, wants %x", data, exp)
+	}
+}
+
+func TestInt16s(t *testing.T) {
+	data := []int16{127, -15, 10, -1, 1024, 0, -500}
+	exp := []int16{-500, -15, -1, 0, 10, 127, 1024}
+	bqsort.Int16s(data)
+	if !reflect.DeepEqual(data, exp) {
+		t.Fatalf("data is not sorted: %x, wants %x", data, exp)
+	}
+}
+
+func TestUint16s(t *testing.T) {
+	data := []uint16{127, 15, 10, 1, 1024, 0, 500}
+	exp := []uint16{0, 1, 10, 15, 127, 500, 1024}
+	bqsort.Uint16s(data)
+	if !reflect.DeepEqual(data, exp) {
+		t.Fatalf("data is not sorted: %x, wants %x", data, exp)
+	}
+}
+
+func TestInt32s(t *testing.T) {
+	data := []int32{65536, 127, -15, 10, -1, 1024, 0, -500}
+	exp := []int32{-500, -15, -1, 0, 10, 127, 1024, 65536}
+	bqsort.Int32s(data)
+	if !reflect.DeepEqual(data, exp) {
+		t.Fatalf("data is not sorted: %x, wants %x", data, exp)
+	}
+}
+
+func TestUint32s(t *testing.T) {
+	data := []uint32{65536, 127, 15, 10, 1, 1024, 0, 500}
+	exp := []uint32{0, 1, 10, 15, 127, 500, 1024, 65536}
+	bqsort.Uint32s(data)
+	if !reflect.DeepEqual(data, exp) {
+		t.Fatalf("data is not sorted: %x, wants %x", data, exp)
 	}
 }
