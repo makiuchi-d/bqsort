@@ -1,6 +1,9 @@
 # bqsort
 Binary quicksort for Go.
 
+[![Test](https://github.com/makiuchi-d/bqsort/actions/workflows/test.yml/badge.svg)](https://github.com/makiuchi-d/bqsort/actions/workflows/test.yml)
+[![codecov](https://codecov.io/gh/makiuchi-d/bqsort/branch/main/graph/badge.svg?token=8PYEVZ35U9)](https://codecov.io/gh/makiuchi-d/bqsort)
+
 Binary quicksort is a in-space binary MSD radix sort.
 The cost of this algorithm is **O(n*k)**, where *n* is the element count and *k* is the number of bits in the max key value.
 This algorithm is advantageous when the number of keys is limited and the number of elements is large.
