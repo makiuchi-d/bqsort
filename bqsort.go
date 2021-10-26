@@ -1,6 +1,7 @@
 // Package bqsort provides in-space binary MSD radix sort (a.k.a. binary quick sort).
-// The cost of this algorithm is O(n*k), where n is the element count and
-// k is the number of bits in the max key value.
+// This is not a stable sort.
+// This sort takes O(n*k) evaluation and uses O(k) space complexity in the worst case,
+// where n is the element count and k is the number of bits in the max key value.
 package bqsort
 
 import (
@@ -90,7 +91,7 @@ func sort(data keySwapper, a, b int, bit uint64) {
 
 // Sort sorts data.
 // The data.Key() must be less than or equal to maxkey.
-// The cost is O(n*k), where n is the data.Len() and k is the number of bits in the maxkey.
+// The worst-case performance is O(n*k), where n is the data.Len() and k is the number of bits in the maxkey.
 func Sort(data Interface, maxkey uint64) {
 	sort(data, 0, data.Len(), msb(maxkey))
 }
@@ -112,7 +113,7 @@ func (x Int8Slice) Key(i int) uint64 { return uint64(x[i]) + (-math.MinInt8) }
 func (x Int8Slice) Swap(i, j int)    { x[i], x[j] = x[j], x[i] }
 
 // Int8s sorts []int8.
-// The cost is O(n*8).
+// The worst-case performance is O(n*8).
 func Int8s(x []int8) {
 	Sort(Int8Slice(x), msb(math.MaxInt8+(-math.MinInt8)))
 }
@@ -125,7 +126,7 @@ func (x Uint8Slice) Key(i int) uint64 { return uint64(x[i]) }
 func (x Uint8Slice) Swap(i, j int)    { x[i], x[j] = x[j], x[i] }
 
 // Uint8s sorts []uint8.
-// The cost is O(n*8).
+// The worst-case performance is O(n*8).
 func Uint8s(x []uint8) {
 	Sort(Uint8Slice(x), msb(math.MaxUint8))
 }
@@ -138,7 +139,7 @@ func (x Int16Slice) Key(i int) uint64 { return uint64(x[i]) + (-math.MinInt16) }
 func (x Int16Slice) Swap(i, j int)    { x[i], x[j] = x[j], x[i] }
 
 // Int16s sorts []int16.
-// The cost is O(n*16).
+// The worst-case performance is O(n*16).
 func Int16s(x []int16) {
 	Sort(Int16Slice(x), msb(math.MaxInt16+(-math.MinInt16)))
 }
@@ -150,8 +151,8 @@ func (x Uint16Slice) Len() int         { return len(x) }
 func (x Uint16Slice) Key(i int) uint64 { return uint64(x[i]) }
 func (x Uint16Slice) Swap(i, j int)    { x[i], x[j] = x[j], x[i] }
 
-// Uint16s sorts []uint8.
-// The cost is O(n*16).
+// Uint16s sorts []uint16.
+// The worst-case performance is O(n*16).
 func Uint16s(x []uint16) {
 	Sort(Uint16Slice(x), msb(math.MaxUint16))
 }
@@ -164,7 +165,7 @@ func (x Int32Slice) Key(i int) uint64 { return uint64(x[i]) + (-math.MinInt32) }
 func (x Int32Slice) Swap(i, j int)    { x[i], x[j] = x[j], x[i] }
 
 // Int32s sorts []int32.
-// The cost is O(n*32).
+// The worst-case performance is O(n*32).
 func Int32s(x []int32) {
 	Sort(Int32Slice(x), msb(math.MaxInt32+(-math.MinInt32)))
 }
@@ -177,7 +178,7 @@ func (x Uint32Slice) Key(i int) uint64 { return uint64(x[i]) }
 func (x Uint32Slice) Swap(i, j int)    { x[i], x[j] = x[j], x[i] }
 
 // Uint32s sorts []uint32.
-// The cost is O(n*32).
+// The worst-case performance is O(n*32).
 func Uint32s(x []uint32) {
 	Sort(Uint32Slice(x), msb(math.MaxUint32))
 }
