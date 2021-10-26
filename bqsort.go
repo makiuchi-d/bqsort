@@ -8,7 +8,7 @@ import (
 	"reflect"
 )
 
-// An implementation of Interface can be sorted by the routines in this package.
+// Interface implementations can be sorted by the routines in this package.
 // The methods refer to elements of the underlying collection by integer index.
 type Interface interface {
 	// Len is the number of elements in the collection.
@@ -20,6 +20,20 @@ type Interface interface {
 
 	// Swap swaps the elements with indexes i and j.
 	Swap(i, j int)
+}
+
+type reverse struct{ Interface }
+
+func (r reverse) Key(i int) uint64 {
+	return ^r.Interface.Key(i)
+}
+
+// Reverse returns the reverse order for data.
+func Reverse(data Interface) Interface {
+	if r, ok := data.(reverse); ok {
+		return r.Interface
+	}
+	return reverse{data}
 }
 
 type keySwapper interface {

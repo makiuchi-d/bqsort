@@ -39,6 +39,23 @@ func TestSort(t *testing.T) {
 	}
 }
 
+func TestReverse(t *testing.T) {
+	data := Ints{3, 5, 2, 1, 4}
+	rev := bqsort.Reverse(data)
+
+	bqsort.Sort(rev, 5)
+
+	exp := Ints{5, 4, 3, 2, 1}
+	if !reflect.DeepEqual(data, exp) {
+		t.Fatalf("reverse ints are not sorted: %v", data)
+	}
+
+	rr := bqsort.Reverse(rev)
+	if reflect.ValueOf(data).Pointer() != reflect.ValueOf(rr).Pointer() {
+		t.Fatalf("reverse again must return the original object: %p %p", data, rr)
+	}
+}
+
 func TestSlice(t *testing.T) {
 	data := make([]uint8, 10)
 	for i := range data {
