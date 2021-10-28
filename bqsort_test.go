@@ -122,3 +122,19 @@ func TestUint32s(t *testing.T) {
 		t.Fatalf("data is not sorted: %x, wants %x", data, exp)
 	}
 }
+
+func TestFloats32(t *testing.T) {
+	data := []float32{
+		3.5, float32(math.Inf(1)), -10.0, math.MaxFloat32, -math.MaxFloat32, float32(math.Inf(-1)), 0, float32(math.NaN()),
+	}
+	exp := []float32{
+		float32(math.NaN()), float32(math.Inf(-1)), -math.MaxFloat32, -10.0, 0, 3.5, math.MaxFloat32, float32(math.Inf(1)),
+	}
+	bqsort.Float32s(data)
+	if !math.IsNaN(float64(data[0])) {
+		t.Fatalf("NaN must be placed on top: %v", data)
+	}
+	if !reflect.DeepEqual(data[1:], exp[1:]) { // skip NaN
+		t.Fatalf("data is not sorted: %v, wants %v", data, exp)
+	}
+}

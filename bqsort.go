@@ -182,3 +182,33 @@ func (x Uint32Slice) Swap(i, j int)    { x[i], x[j] = x[j], x[i] }
 func Uint32s(x []uint32) {
 	Sort(Uint32Slice(x), msb(math.MaxUint32))
 }
+
+// Float32Slice implements Interface for []float32.
+type Float32Slice []float32
+
+func (x Float32Slice) Len() int { return len(x) }
+func (x Float32Slice) Key(i int) uint64 {
+	v := math.Float32bits(x[i])
+	// NaN will be placed before -Inf.
+	if (v&0x7f800000) == 0x7f800000 && (v&0x007fffff) != 0 {
+		return 0
+	}
+	// invert the sign-bit to place the positive values ​​after the negative values.
+	// the other bits in the positive value are already in order.
+	// invert other bits in the negative value to reverse the order.
+	if v&(1<<31) == 0 {
+		// positive value: invert the sign-bit
+		v ^= 1 << 31
+	} else {
+		// negative value: invert the sign-bit and other bits (all bits)
+		v = ^v
+	}
+	return uint64(v)
+}
+func (x Float32Slice) Swap(i, j int) { x[i], x[j] = x[j], x[i] }
+
+// Float32s sorts []float32.
+// The worst-case performance is O(n*32).
+func Float32s(x []float32) {
+	Sort(Float32Slice(x), 1<<31)
+}
