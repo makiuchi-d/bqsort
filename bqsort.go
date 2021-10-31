@@ -98,7 +98,7 @@ func Sort(data Interface, maxkey uint64) {
 
 // Slice sorts a slice.
 // The key(i) returns the sort key of the slice[i] which must be less than or equal to maxkey.
-// The cost is O(n*k), where n is the len(x) and k is the number of bits in the maxkey.
+// The cost is O(n*k), where n is the len(slice) and k is the number of bits in the maxkey.
 func Slice(slice interface{}, maxkey uint64, key func(i int) uint64) {
 	len := reflect.ValueOf(slice).Len()
 	swap := reflect.Swapper(slice)
